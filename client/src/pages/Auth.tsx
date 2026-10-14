@@ -1,5 +1,5 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { api, API } from '../api';
 
@@ -16,8 +16,20 @@ function AuthForm({ mode }: { mode: 'login' | 'register' }) {
   const [form, setForm] = useState<FormState>(initialForm);
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
+  const [searchParams] = useSearchParams();
   const nav = useNavigate();
   const qc = useQueryClient();
+
+  useEffect(() => {
+    const errorParam = searchParams.get('error');
+    if (errorParam === 'oauth') {
+      setErr('GitHub login was cancelled or failed to authenticate.');
+    } else if (errorParam === 'db_unreachable') {
+      setErr('Database unreachable: Please make sure your PostgreSQL DATABASE_URL is configured in server/.env.');
+    } else if (errorParam === 'github_unconfigured') {
+      setErr('GitHub OAuth is not configured. Please add GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET to server/.env.');
+    }
+  }, [searchParams]);
 
   const updateField = (key: keyof FormState) => (event: ChangeEvent<HTMLInputElement>) => {
     setForm((current) => ({ ...current, [key]: event.target.value }));

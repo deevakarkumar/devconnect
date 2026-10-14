@@ -29,7 +29,17 @@ r.put('/me', auth, wrap(async (req, res) => {
 }));
 r.post('/me/avatar', auth, upload.single('image'), wrap(async (req, res) => {
   const f = (req as any).file as Express.Multer.File | undefined; if (!f) return fail(res, 'Image (png/jpg/webp, max 2MB) required');
-  const url: string = await new Promise((ok_, ko) => cloudinary.uploader.upload_stream({ folder: 'devconnect', transformation: [{ width: 400, height: 400, crop: 'fill', quality: 'auto' }] }, (e, r_) => e || !r_ ? ko(e) : ok_(r_.secure_url)).end(f.buffer));
+  const isCloudinaryConfigured = process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_CLOUD_NAME !== 'mock' && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_KEY !== 'mock';
+  let url: string;
+  if (isCloudinaryConfigured) {
+    try {
+      url = await new Promise((ok_, ko) => cloudinary.uploader.upload_stream({ folder: 'devconnect', transformation: [{ width: 400, height: 400, crop: 'fill', quality: 'auto' }] }, (e, r_) => e || !r_ ? ko(e) : ok_(r_.secure_url)).end(f.buffer));
+    } catch {
+      url = `data:${f.mimetype};base64,${f.buffer.toString('base64')}`;
+    }
+  } else {
+    url = `data:${f.mimetype};base64,${f.buffer.toString('base64')}`;
+  }
   ok(res, await prisma.user.update({ where: { id: req.userId }, data: { avatarUrl: url }, select: publicUser }));
 }));
 
