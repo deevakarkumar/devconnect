@@ -27,6 +27,47 @@
 
 ---
 
+## 📸 Platform Screenshots & Demo Gallery
+
+### 1. Developer Dashboard & Real-Time Activity Feed
+Real-time metrics counter (connections, posts, endorsements), peer activity feed, trending posts, and skill recommendations.
+![Developer Dashboard](docs/screenshots/03_dashboard_feed.png)
+
+### 2. Developer Portfolio & Endorsement System
+Rich developer showcase featuring bio, location, mutual connection calculations, live project links, and skill endorsement counts (+1).
+![Developer Profile](docs/screenshots/04_developer_profile.png)
+
+### 3. Developer Discovery & Multi-Filter Search
+Case-insensitive search with dynamic filtering by developer name/username, skill tags, and location with server-side pagination.
+![Developer Discovery](docs/screenshots/05_developer_search.png)
+
+### 4. Technical Blog with Syntax Highlighting & Dark Theme
+Technical publication engine rendering Markdown with code syntax highlighting via `rehype-highlight` and view tracking.
+![Technical Blog](docs/screenshots/06_b_single_blog_post.png)
+
+### 5. Split-Pane Live Markdown Editor
+Interactive blog editor with instant side-by-side preview, live formatting, and code block parsing.
+![Markdown Editor](docs/screenshots/08_markdown_editor.png)
+
+### 6. Bidirectional Connection Network
+Manage pending incoming/outgoing connection requests, accept/reject workflows, and direct peer removals.
+![Connection Network](docs/screenshots/07_connections_network.png)
+
+### 7. Mobile-First Responsive Design (PWA)
+Optimized mobile viewport layout with persistent bottom navigation bar and touch-friendly controls.
+<p align="center">
+  <img src="docs/screenshots/09_mobile_responsive_dashboard.png" width="380" alt="Mobile Dashboard" />
+</p>
+
+### 8. Authentication & Onboarding
+Clean, secure dual-mode authentication supporting local credentials and GitHub OAuth.
+
+| Login | Registration |
+| :---: | :---: |
+| ![Login](docs/screenshots/01_auth_login.png) | ![Register](docs/screenshots/02_auth_register.png) |
+
+---
+
 ## 🛠 Tech Stack Overview
 
 | Category | Technology | Rationale & Usage |
